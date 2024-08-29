@@ -7,6 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 import { Heading } from '@/components/ui/Heading'
+import { Button } from '@/components/ui/buttons/Button'
 import { Field } from '@/components/ui/fields/Fields'
 
 import { IAuthForm } from '@/types/auth.types'
@@ -14,14 +15,13 @@ import { IAuthForm } from '@/types/auth.types'
 import { DASHBOARD_PAGES } from '@/config/pages-url.config'
 
 import { authService } from '@/services/auth.service'
-import { Button } from '@/components/ui/buttons/Button'
 
 export function Auth() {
 	const { register, handleSubmit, reset } = useForm<IAuthForm>({
 		mode: 'onChange'
 	})
 
-	const [isLoginForm, setIsLoginForm] = useState(true)
+	const [isLoginForm, setIsLoginForm] = useState(false)
 
 	const { push } = useRouter()
 
@@ -47,27 +47,33 @@ export function Auth() {
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<Heading title='Auth' />
+
 				<Field
-					{...register('email', { required: 'Email is required!' })}
 					id='email'
 					label='Email:'
-					placeholder='Enter email'
+					placeholder='Enter email:'
 					type='email'
 					extra='mb-4'
+					{...register('email', {
+						required: 'Email is required!'
+					})}
 				/>
 
 				<Field
-					{...register('password', { required: 'password is required!' })}
 					id='password'
-					label='Password:'
-					placeholder='Enter password'
+					label='Password: '
+					placeholder='Enter password: '
 					type='password'
-					extra='mb-4'
+					{...register('password', {
+						required: 'Password is required!'
+					})}
+					extra='mb-6'
 				/>
+
 				<div className='flex items-center gap-5 justify-center'>
-                    <Button onClick={() => setIsLoginForm(true)}>Login</Button>
-                    <Button onClick={() => setIsLoginForm(false)}>Register</Button>
-                </div>
+					<Button onClick={() => setIsLoginForm(true)}>Login</Button>
+					<Button onClick={() => setIsLoginForm(false)}>Register</Button>
+				</div>
 			</form>
 		</div>
 	)
